@@ -272,22 +272,22 @@ int UARTBase::available() {
 
 void UARTBase::lazyDelay() {
     // Reenable interrupts while delaying to avoid other tasks piling up
-    if (!m_intTxEnabled) { restoreInterrupts(); }
-    const auto expired = microsToTicks(micros()) - m_periodStart;
-    const int32_t remaining = m_periodDuration - expired;
-    const uint32_t ms = remaining > 0 ? ticksToMicros(remaining) / 1000UL : 0;
-    if (ms > 0)
-    {
-        delay(ms);
-    }
-    else
-    {
-        optimistic_yield(10000UL);
-    }
+    // if (!m_intTxEnabled) { restoreInterrupts(); }
+    // const auto expired = microsToTicks(micros()) - m_periodStart;
+    // const int32_t remaining = m_periodDuration - expired;
+    // const uint32_t ms = remaining > 0 ? ticksToMicros(remaining) / 1000UL : 0;
+    // if (ms > 0)
+    // {
+    //     delay(ms);
+    // }
+    // else
+    // {
+    //     optimistic_yield(10000UL);
+    // }
     // Assure that below-ms part of delays are not elided
     preciseDelay();
     // Disable interrupts again if applicable
-    if (!m_intTxEnabled) { disableInterrupts(); }
+    // if (!m_intTxEnabled) { disableInterrupts(); }
 }
 
 void IRAM_ATTR UARTBase::preciseDelay() {
