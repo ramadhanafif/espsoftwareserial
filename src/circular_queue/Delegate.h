@@ -39,7 +39,7 @@ namespace
 {
 
     template<typename R, typename... P>
-    __attribute__((always_inline)) inline R IRAM_ATTR vPtrToFunPtrExec(void* fn, P... args)
+    R IRAM_ATTR vPtrToFunPtrExec(void* fn, P... args)
     {
         using target_type = R(P...);
         return reinterpret_cast<target_type*>(fn)(std::forward<P...>(args...));
@@ -253,7 +253,7 @@ namespace delegate
                 return *this;
             }
 
-            IRAM_ATTR operator bool() const
+            operator bool() const
             {
                 if (FP == kind)
                 {
@@ -269,7 +269,7 @@ namespace delegate
                 }
             }
 
-            static inline R IRAM_ATTR vPtrToFunAPtrExec(void* self, P... args) __attribute__((always_inline))
+            static R IRAM_ATTR vPtrToFunAPtrExec(void* self, P... args)
             {
                 return static_cast<DelegatePImpl*>(self)->fnA(
                     static_cast<DelegatePImpl*>(self)->obj,
@@ -327,17 +327,16 @@ namespace delegate
             {
                 if (FP == kind)
                 {
-                    if (fn) return fn(std::forward<P...>(args...));
+                    return fn(std::forward<P...>(args...));
                 }
                 else if (FPA == kind)
                 {
-                    if (fnA) return fnA(obj, std::forward<P...>(args...));
+                    return fnA(obj, std::forward<P...>(args...));
                 }
                 else
                 {
-                    if (functional) return functional(std::forward<P...>(args...));
+                    return functional(std::forward<P...>(args...));
                 }
-                return R();
             }
 
         protected:
@@ -495,7 +494,7 @@ namespace delegate
                 return *this;
             }
 
-            IRAM_ATTR operator bool() const
+            operator bool() const
             {
                 if (FP == kind)
                 {
@@ -507,7 +506,7 @@ namespace delegate
                 }
             }
 
-            static inline R IRAM_ATTR vPtrToFunAPtrExec(void* self, P... args) __attribute__((always_inline))
+            static R IRAM_ATTR vPtrToFunAPtrExec(void* self, P... args)
             {
                 return static_cast<DelegatePImpl*>(self)->fnA(
                     static_cast<DelegatePImpl*>(self)->obj,
@@ -542,13 +541,12 @@ namespace delegate
             {
                 if (FP == kind)
                 {
-                    if (fn) return fn(std::forward<P...>(args...));
+                    return fn(std::forward<P...>(args...));
                 }
                 else
                 {
-                    if (fnA) return fnA(obj, std::forward<P...>(args...));
+                    return fnA(obj, std::forward<P...>(args...));
                 }
-                return R();
             }
 
         protected:
@@ -695,7 +693,7 @@ namespace delegate
                 return *this;
             }
 
-            IRAM_ATTR operator bool() const
+            operator bool() const
             {
                 if (FP == kind)
                 {
@@ -750,13 +748,12 @@ namespace delegate
             {
                 if (FP == kind)
                 {
-                    if (fn) return fn(std::forward<P...>(args...));
+                    return fn(std::forward<P...>(args...));
                 }
                 else
                 {
-                    if (functional) return functional(std::forward<P...>(args...));
+                    return functional(std::forward<P...>(args...));
                 }
-                return R();
             }
 
         protected:
@@ -825,13 +822,13 @@ namespace delegate
                 return *this;
             }
 
-            inline DelegatePImpl& IRAM_ATTR operator=(std::nullptr_t) __attribute__((always_inline))
+            DelegatePImpl& IRAM_ATTR operator=(std::nullptr_t)
             {
                 fn = nullptr;
                 return *this;
             }
 
-            inline IRAM_ATTR operator bool() const __attribute__((always_inline))
+            operator bool() const
             {
                 return fn;
             }
@@ -846,10 +843,9 @@ namespace delegate
                 return reinterpret_cast<void*>(fn);
             }
 
-            inline R IRAM_ATTR operator()(P... args) const __attribute__((always_inline))
+            R IRAM_ATTR operator()(P... args) const
             {
-                if (fn) return fn(std::forward<P...>(args...));
-                return R();
+                return fn(std::forward<P...>(args...));
             }
 
         protected:
@@ -1058,7 +1054,7 @@ namespace delegate
                 return *this;
             }
 
-            IRAM_ATTR operator bool() const
+            operator bool() const
             {
                 if (FP == kind)
                 {
@@ -1074,7 +1070,7 @@ namespace delegate
                 }
             }
 
-            static inline R IRAM_ATTR vPtrToFunAPtrExec(void* self) __attribute__((always_inline))
+            static R IRAM_ATTR vPtrToFunAPtrExec(void* self)
             {
                 return static_cast<DelegateImpl*>(self)->fnA(
                     static_cast<DelegateImpl*>(self)->obj);
@@ -1131,17 +1127,16 @@ namespace delegate
             {
                 if (FP == kind)
                 {
-                    if (fn) return fn();
+                    return fn();
                 }
                 else if (FPA == kind)
                 {
-                    if (fnA) return fnA(obj);
+                    return fnA(obj);
                 }
                 else
                 {
-                    if (functional) return functional();
+                    return functional();
                 }
-                return R();
             }
 
         protected:
@@ -1299,7 +1294,7 @@ namespace delegate
                 return *this;
             }
 
-            IRAM_ATTR operator bool() const
+            operator bool() const
             {
                 if (FP == kind)
                 {
@@ -1311,7 +1306,7 @@ namespace delegate
                 }
             }
 
-            static inline R IRAM_ATTR vPtrToFunAPtrExec(void* self) __attribute__((always_inline))
+            static R IRAM_ATTR vPtrToFunAPtrExec(void* self)
             {
                 return static_cast<DelegateImpl*>(self)->fnA(
                     static_cast<DelegateImpl*>(self)->obj);
@@ -1345,13 +1340,12 @@ namespace delegate
             {
                 if (FP == kind)
                 {
-                    if (fn) return fn();
+                    return fn();
                 }
                 else
                 {
-                    if (fnA) return fnA(obj);
+                    return fnA(obj);
                 }
-                return R();
             }
 
         protected:
@@ -1498,7 +1492,7 @@ namespace delegate
                 return *this;
             }
 
-            IRAM_ATTR operator bool() const
+            operator bool() const
             {
                 if (FP == kind)
                 {
@@ -1553,13 +1547,12 @@ namespace delegate
             {
                 if (FP == kind)
                 {
-                    if (fn) return fn();
+                    return fn();
                 }
                 else
                 {
-                    if (functional) return functional();
+                    return functional();
                 }
-                return R();
             }
 
         protected:
@@ -1628,13 +1621,13 @@ namespace delegate
                 return *this;
             }
 
-            inline DelegateImpl& IRAM_ATTR operator=(std::nullptr_t) __attribute__((always_inline))
+            DelegateImpl& IRAM_ATTR operator=(std::nullptr_t)
             {
                 fn = nullptr;
                 return *this;
             }
 
-            inline IRAM_ATTR operator bool() const __attribute__((always_inline))
+            operator bool() const
             {
                 return fn;
             }
@@ -1649,10 +1642,9 @@ namespace delegate
                 return nullptr;
             }
 
-            inline R IRAM_ATTR operator()() const __attribute__((always_inline))
+            R IRAM_ATTR operator()() const
             {
-                if (fn) return fn();
-                return R();
+                return fn();
             }
 
         protected:
@@ -1715,7 +1707,7 @@ namespace delegate
                 return *this;
             }
 
-            inline Delegate& IRAM_ATTR operator=(std::nullptr_t) __attribute__((always_inline)) {
+            Delegate& IRAM_ATTR operator=(std::nullptr_t) {
                 detail::DelegatePImpl<A, R, P...>::operator=(nullptr);
                 return *this;
             }
@@ -1794,7 +1786,7 @@ namespace delegate
                 return *this;
             }
 
-            inline Delegate& IRAM_ATTR operator=(std::nullptr_t) __attribute__((always_inline)) {
+            Delegate& IRAM_ATTR operator=(std::nullptr_t) {
                 detail::DelegatePImpl<A*, R, P...>::operator=(nullptr);
                 return *this;
             }
@@ -1850,7 +1842,7 @@ namespace delegate
                 return *this;
             }
 
-            inline Delegate& IRAM_ATTR operator=(std::nullptr_t) __attribute__((always_inline)) {
+            Delegate& IRAM_ATTR operator=(std::nullptr_t) {
                 detail::DelegatePImpl<void, R, P...>::operator=(nullptr);
                 return *this;
             }
@@ -1911,7 +1903,7 @@ namespace delegate
                 return *this;
             }
 
-            inline Delegate& IRAM_ATTR operator=(std::nullptr_t) __attribute__((always_inline)) {
+            Delegate& IRAM_ATTR operator=(std::nullptr_t) {
                 detail::DelegateImpl<A, R>::operator=(nullptr);
                 return *this;
             }
@@ -1990,7 +1982,7 @@ namespace delegate
                 return *this;
             }
 
-            inline Delegate& IRAM_ATTR operator=(std::nullptr_t) __attribute__((always_inline)) {
+            Delegate& IRAM_ATTR operator=(std::nullptr_t) {
                 detail::DelegateImpl<A*, R>::operator=(nullptr);
                 return *this;
             }
@@ -2046,7 +2038,7 @@ namespace delegate
                 return *this;
             }
 
-            inline Delegate& IRAM_ATTR operator=(std::nullptr_t) __attribute__((always_inline)) {
+            Delegate& IRAM_ATTR operator=(std::nullptr_t) {
                 detail::DelegateImpl<void, R>::operator=(nullptr);
                 return *this;
             }
@@ -2091,7 +2083,7 @@ public:
         return *this;
     }
 
-    inline Delegate& IRAM_ATTR operator=(std::nullptr_t) __attribute__((always_inline)) {
+    Delegate& IRAM_ATTR operator=(std::nullptr_t) {
         delegate::detail::Delegate<A, R, P...>::operator=(nullptr);
         return *this;
     }
@@ -2129,7 +2121,7 @@ public:
         return *this;
     }
 
-    inline Delegate& IRAM_ATTR operator=(std::nullptr_t) __attribute__((always_inline)) {
+    Delegate& IRAM_ATTR operator=(std::nullptr_t) {
         delegate::detail::Delegate<void, R, P...>::operator=(nullptr);
         return *this;
     }
