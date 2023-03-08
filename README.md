@@ -1,5 +1,13 @@
 # EspSoftwareSerial
 
+## Patched to ensure the library works in freeRTOS thread.
+This fork changes how delays work. Originally, the library uses several instances
+of `lazyDelay()` method to work around timings. However, `lazyDelay()` is a wrapper to Arduino `delay()`
+which is another wrapper to freeRTOS `vTaskDelay()`. `vTaskDelay()` triggers freeRTOS task preemption mechanism, 
+and sometimes caused the SoftwareSerial to miss its timings.
+
+Now, all delays in this library is a blocking delay, which means the task preemption issue does not happen anymore.
+Beware that this implementation costs a small amount of performance, in exchange for reliability. 
 ## Implementation of the Arduino software serial library for the ESP8266 / ESP32 family
 
 This fork implements interrupt service routine best practice.
