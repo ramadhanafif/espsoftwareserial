@@ -291,12 +291,13 @@ void UARTBase::lazyDelay() {
 }
 
 void IRAM_ATTR UARTBase::preciseDelay() {
-    uint32_t ticks;
-    do {
-        ticks = microsToTicks(micros());
-    } while ((ticks - m_periodStart) < m_periodDuration);
-    m_periodDuration = 0;
-    m_periodStart = ticks;
+    // uint32_t ticks;
+    // do {
+    //     ticks = microsToTicks(micros());
+    // } while ((ticks - m_periodStart) < m_periodDuration);
+    // m_periodDuration = 0;
+    // m_periodStart = ticks;
+    lazyDelay();
 }
 
 void IRAM_ATTR UARTBase::writePeriod(
